@@ -1,0 +1,124 @@
+/* Global Layout and Container */
+.page-container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    padding: 20px 16px 48px;
+  }
+}
+
+/* Typography Helpers */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  background-color: var(--primary-light);
+  border: 1px solid var(--primary-border);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+  letter-spacing: 0.2px;
+}
+
+.page-title {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.6px;
+  margin: 0 0 6px;
+}
+
+.page-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.badge-lost {
+  background-color: var(--lost-bg);
+  color: var(--lost-text);
+  border: 1px solid var(--lost-border);
+}
+
+.badge-found {
+  background-color: var(--found-bg);
+  color: var(--found-text);
+  border: 1px solid var(--found-border);
+}
+
+.badge-active {
+  background-color: var(--active-bg);
+  color: var(--active-text);
+  border: 1px solid var(--active-border);
+}
+
+.badge-claimed {
+  background-color: var(--claimed-bg);
+  color: var(--claimed-text);
+  border: 1px solid var(--claimed-border);
+}
+
+.badge-returned {
+  background-color: var(--returned-bg);
+  color: var(--returned-text);
+  border: 1px solid var(--returned-border);
+}
+
+/* Common Card Base */
+.card-base {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card-base:hover {
+  border-color: var(--border-default);
+}
+
+/* Skeleton Loading Animation */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-muted) 25%,
+    var(--border-subtle) 50%,
+    var(--bg-muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonLoading 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

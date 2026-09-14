@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@layer base {
+  :root {
+    --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Dark Charcoal/Navy Theme by Default */
+    --bg-base: #090d16;
+    --bg-card: #0f172a;
+    --bg-card-hover: #172033;
+    --bg-elevated: #1e293b;
+    --bg-input: #0c1322;
+    --border-subtle: rgba(255, 255, 255, 0.07);
+    --border-hover: rgba(255, 255, 255, 0.16);
+    --border-active: rgba(99, 102, 241, 0.5);
+
+    /* Text Hierarchy */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --text-highlight: #ffffff;
+
+    /* Brand Accents */
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --primary-glow: rgba(99, 102, 241, 0.25);
+    --primary-light: rgba(99, 102, 241, 0.12);
+
+    /* Badges */
+    --badge-lost-bg: rgba(239, 68, 68, 0.12);
+    --badge-lost-text: #f87171;
+    --badge-lost-border: rgba(239, 68, 68, 0.25);
+
+    --badge-found-bg: rgba(34, 197, 94, 0.12);
+    --badge-found-text: #4ade80;
+    --badge-found-border: rgba(34, 197, 94, 0.25);
+
+    --badge-active-bg: rgba(99, 102, 241, 0.12);
+    --badge-active-text: #818cf8;
+    --badge-active-border: rgba(99, 102, 241, 0.25);
+
+    --badge-claimed-bg: rgba(245, 158, 11, 0.12);
+    --badge-claimed-text: #fbbf24;
+    --badge-claimed-border: rgba(245, 158, 11, 0.25);
+
+    --badge-returned-bg: rgba(148, 163, 184, 0.12);
+    --badge-returned-text: #cbd5e1;
+    --badge-returned-border: rgba(148, 163, 184, 0.22);
+  }
+
+  html {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+}
+
+/* Custom Utilities for Premium Linear/Vercel aesthetic */
+.glass-nav {
+  background: rgba(9, 13, 22, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+}
+
+.glow-mesh {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1100px;
+  height: 480px;
+  background: radial-gradient(circle 400px at 50% 120px, rgba(99, 102, 241, 0.15), rgba(56, 189, 248, 0.05) 50%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-mesh-subtle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 800px;
+  height: 350px;
+  background: radial-gradient(circle 300px at 50% 80px, rgba(99, 102, 241, 0.1), transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Custom Badges */
+.badge-lost {
+  background-color: var(--badge-lost-bg);
+  color: var(--badge-lost-text);
+  border: 1px solid var(--badge-lost-border);
+}
+
+.badge-found {
+  background-color: var(--badge-found-bg);
+  color: var(--badge-found-text);
+  border: 1px solid var(--badge-found-border);
+}
+
+.badge-active {
+  background-color: var(--badge-active-bg);
+  color: var(--badge-active-text);
+  border: 1px solid var(--badge-active-border);
+}
+
+.badge-claimed {
+  background-color: var(--badge-claimed-bg);
+  color: var(--badge-claimed-text);
+  border: 1px solid var(--badge-claimed-border);
+}
+
+.badge-returned {
+  background-color: var(--badge-returned-bg);
+  color: var(--badge-returned-text);
+  border: 1px solid var(--badge-returned-border);
+}
+
+/* Skeleton Loading Shimmer */
+@keyframes shimmer {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.5; }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}

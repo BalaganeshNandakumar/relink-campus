@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { searchItems } from '../api/itemApi'
+import { useAuth } from '../context/AuthContext'
 import CustomSelect from '../components/CustomSelect'
 import {
   Search,
@@ -18,11 +19,13 @@ import {
   Clock,
   Filter,
   X,
+  LogIn,
 } from 'lucide-react'
 
 function HomePage() {
+  const { isAuthenticated } = useAuth()
   const [items, setItems] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(isAuthenticated)
   const [error, setError] = useState('')
 
   // Search & Filter Form state (in-flight inputs)
@@ -42,6 +45,12 @@ function HomePage() {
   })
 
   const fetchItems = useCallback(async (searchParams = {}) => {
+    if (!isAuthenticated) {
+      setItems([])
+      setLoading(false)
+      setError('')
+      return
+    }
     setLoading(true)
     setError('')
     try {
@@ -52,11 +61,17 @@ function HomePage() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [isAuthenticated])
 
   useEffect(() => {
-    fetchItems(appliedFilters)
-  }, [appliedFilters, fetchItems])
+    if (isAuthenticated) {
+      fetchItems(appliedFilters)
+    } else {
+      setItems([])
+      setLoading(false)
+      setError('')
+    }
+  }, [isAuthenticated, appliedFilters, fetchItems])
 
   // Statistics calculated from current items array
   const stats = useMemo(() => {
@@ -454,7 +469,7 @@ function HomePage() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
               <span>Reported Items</span>
-              {!loading && (
+              {isAuthenticated && !loading && (
                 <span className="px-2.5 py-0.5 rounded-md bg-slate-800 text-indigo-400 text-xs font-bold border border-slate-700/60">
                   {items.length} {items.length === 1 ? 'item' : 'items'}
                 </span>
@@ -462,8 +477,39 @@ function HomePage() {
             </h3>
           </div>
 
+          {/* Authentication Required State (Logged Out) */}
+          {!isAuthenticated && (
+            <div className="p-10 sm:p-14 text-center rounded-2xl bg-slate-900/40 border border-slate-800/80 max-w-xl mx-auto my-8 backdrop-blur-sm shadow-xl">
+              <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mx-auto mb-5 text-indigo-400 shadow-inner">
+                <LogIn className="w-7 h-7" />
+              </div>
+              <h4 className="text-xl font-bold text-slate-100 mb-2.5">
+                Sign in to view reported items
+              </h4>
+              <p className="text-sm text-slate-400 mb-7 max-w-md mx-auto leading-relaxed">
+                Log in to see lost and found items reported by the campus community.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link
+                  to="/login"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-md shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:-translate-y-0.5 transition-all"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span>Sign In</span>
+                </Link>
+                <Link
+                  to="/register"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 hover:border-slate-600 transition-all"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Create Account</span>
+                </Link>
+              </div>
+            </div>
+          )}
+
           {/* Loading Skeleton Grid */}
-          {loading && (
+          {isAuthenticated && loading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {[1, 2, 3, 4, 5, 6].map((n) => (
                 <div
@@ -490,7 +536,7 @@ function HomePage() {
           )}
 
           {/* Error Alert State */}
-          {error && !loading && (
+          {isAuthenticated && error && !loading && (
             <div className="p-6 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <AlertCircle className="w-6 h-6 shrink-0 text-red-400" />
@@ -507,7 +553,7 @@ function HomePage() {
           )}
 
           {/* Empty State */}
-          {!loading && !error && items.length === 0 && (
+          {isAuthenticated && !loading && !error && items.length === 0 && (
             <div className="p-12 text-center rounded-2xl bg-slate-900/40 border border-dashed border-slate-800 max-w-xl mx-auto my-8">
               <div className="w-14 h-14 rounded-2xl bg-slate-800/60 border border-slate-700/50 flex items-center justify-center mx-auto mb-4 text-slate-400">
                 <Search className="w-6 h-6" />
@@ -540,7 +586,7 @@ function HomePage() {
           )}
 
           {/* Item Cards Grid */}
-          {!loading && !error && items.length > 0 && (
+          {isAuthenticated && !loading && !error && items.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {items.map((item) => (
                 <Link

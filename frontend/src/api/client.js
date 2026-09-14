@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:8081'
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'
 
 /**
  * Centralized fetch-based API client for communicating with the Spring Boot backend.
@@ -26,7 +27,7 @@ export async function apiClient(endpoint, { method = 'GET', body, headers = {}, 
     ...customOptions,
   }
 
-  const url = `${BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`
+  const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`
 
   let response
   try {
